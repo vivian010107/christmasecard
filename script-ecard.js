@@ -16,6 +16,7 @@ function displayPostcard() {
   const receiver = document.getElementById("receiverName").value;
   const builtIn = document.getElementById("builtInMessage").value;
   const custom = document.getElementById("customMessage").value;
+
   document.getElementById("messageOverlay").textContent = 
     `🎉 To: ${receiver}\n${builtIn}${custom ? '\n' + custom : ''}\n🎅 From: ${sender}`;
 }
@@ -59,12 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // Get user inputs
       let senderName = document.getElementById("senderName").value;
       let receiverName = document.getElementById("receiverName").value;
-      let message = document.getElementById("customMessage").value; // Ensure it's customMessage
+      let builtInMessage = document.getElementById("builtInMessage").value;
+      let customMessage = document.getElementById("customMessage").value;
+
+      // Combine built-in and custom messages
+      let fullMessage = `${builtInMessage}${customMessage ? '\n' + customMessage : ''}`;
 
       // Encode data to make it URL-safe
       let encodedSender = encodeURIComponent(senderName);
       let encodedReceiver = encodeURIComponent(receiverName);
-      let encodedMessage = encodeURIComponent(message);
+      let encodedMessage = encodeURIComponent(fullMessage);
 
       // Get current page URL and append parameters
       let currentURL = window.location.origin + window.location.pathname;
@@ -78,30 +83,27 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Link copied! Share it with your receiver.");
       });
     });
-  } else {
-    console.error("Error: shareBtn not found.");
   }
 });
 
 // 🎯 Load Shared Data from URL
 window.onload = function () {
-  // Get URL parameters
   let urlParams = new URLSearchParams(window.location.search);
   let senderName = urlParams.get("sender");
   let receiverName = urlParams.get("receiver");
   let message = urlParams.get("message");
 
-  // If parameters exist, fill in the e-card inputs
   if (senderName && receiverName && message) {
-    document.getElementById("senderName").value = senderName;
-    document.getElementById("receiverName").value = receiverName;
-    document.getElementById("customMessage").value = message;
-
-    // Also update the displayed postcard message
+    // Update the postcard display
     document.getElementById("messageOverlay").textContent = 
       `🎉 To: ${receiverName}\n${message}\n🎅 From: ${senderName}`;
+
+    // Hide input fields, buttons, and ornaments when accessed via shared link
+    let controls = document.getElementById("controls");
+    if (controls) controls.style.display = "none";
   }
 };
+
 
 
 
