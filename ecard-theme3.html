@@ -1,0 +1,35 @@
+
+<html>
+<head>
+  <title>Your Christmas E-Card</title>
+  <link rel="stylesheet" href="styles-ecardtheme3.css">
+</head>
+<body>
+  <h1>Your Personalized Christmas E-Card</h1>
+  <audio id="musicPlayer" src="christmasmusic.mp3" loop></audio>
+  <button onclick="toggleMusic()">🎵 Play/Pause Music</button>
+
+  <div class="postcard">
+    <div id="messageOverlay" class="message-overlay"></div>
+  </div>
+
+  <input type="text" id="senderName" placeholder="Sender's Name">
+  <input type="text" id="receiverName" placeholder="Receiver's Name">
+  <select id="builtInMessage">
+    <option value="Merry Christmas!">Merry Christmas!</option>
+    <option value="Season's Greetings!">Season's Greetings!</option>
+    <option value="Happy Holidays!">Happy Holidays!</option>
+    <option value="Peace on Earth!">Peace on Earth!</option>
+  </select>
+  <input type="text" id="customMessage" placeholder="Optional Message">
+  <button onclick="displayPostcard()">✨ Generate Postcard</button>
+
+  <div id="ornamentContainer">
+    <img src="ornament1.png" class="ornament" onclick="showBlessing('Joy and Peace!')">
+    <img src="ornament2.png" class="ornament" onclick="showBlessing('Warm Wishes!')">
+    <img src="ornament3.png" class="ornament" onclick="showBlessing('Happy Holidays!')">
+  </div>
+
+  <script src="script-ecard.js"></script>
+</body>
+</html>
