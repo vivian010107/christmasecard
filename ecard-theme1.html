@@ -15,24 +15,27 @@
     <div id="messageOverlay" class="message-overlay"></div>
   </div>
 
-  <input type="text" id="senderName" placeholder="Sender's Name">
-  <input type="text" id="receiverName" placeholder="Receiver's Name">
-  <select id="builtInMessage">
-    <option value="Merry Christmas!">Merry Christmas!</option>
-    <option value="Season's Greetings!">Season's Greetings!</option>
-    <option value="Happy Holidays!">Happy Holidays!</option>
-    <option value="Peace on Earth!">Peace on Earth!</option>
-  </select>
-  <input type="text" id="customMessage" placeholder="Optional Message">
-  <button onclick="displayPostcard()">✨ Generate Postcard</button>
+  <!-- Controls (Inputs & Buttons) Wrapped Inside a Div -->
+  <div id="controls">
+    <input type="text" id="senderName" placeholder="Sender's Name">
+    <input type="text" id="receiverName" placeholder="Receiver's Name">
+    <select id="builtInMessage">
+      <option value="Merry Christmas!">Merry Christmas!</option>
+      <option value="Season's Greetings!">Season's Greetings!</option>
+      <option value="Happy Holidays!">Happy Holidays!</option>
+      <option value="Peace on Earth!">Peace on Earth!</option>
+    </select>
+    <input type="text" id="customMessage" placeholder="Optional Message">
+    <button onclick="displayPostcard()">✨ Generate Postcard</button>
 
-  <div id="ornamentContainer">
-    <img src="ornament1.png" class="ornament" onclick="showBlessing('Joy and Peace!')">
-    <img src="ornament2.png" class="ornament" onclick="showBlessing('Warm Wishes!')">
-    <img src="ornament3.png" class="ornament" onclick="showBlessing('Happy Holidays!')">
+    <div id="ornamentContainer">
+      <img src="ornament1.png" class="ornament" onclick="showBlessing('Joy and Peace!')">
+      <img src="ornament2.png" class="ornament" onclick="showBlessing('Warm Wishes!')">
+      <img src="ornament3.png" class="ornament" onclick="showBlessing('Happy Holidays!')">
+    </div>
+
+    <button id="shareBtn">Share Link</button>
   </div>
-
-  <button id="shareBtn">Share Link</button>
 
   <script src="script-ecard.js"></script>
 </body>
