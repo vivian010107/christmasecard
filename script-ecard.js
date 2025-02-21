@@ -17,8 +17,8 @@ function displayPostcard() {
   const builtIn = document.getElementById("builtInMessage").value;
   const custom = document.getElementById("customMessage").value;
 
-  document.getElementById("messageOverlay").textContent = 
-    `🎉 To: ${receiver}\n${builtIn}${custom ? '\n' + custom : ''}\n🎅 From: ${sender}`;
+  const fullMessage = `🎉 To: ${receiver}\n${builtIn}${custom ? '\n' + custom : ''}\n🎅 From: ${sender}`;
+  document.getElementById("messageOverlay").textContent = fullMessage;
 }
 
 // 🎵 Toggle Background Music
@@ -32,26 +32,6 @@ function showBlessing(message) {
   alert(`✨ ${message} ✨`);
 }
 
-// 📸 Capture Postcard as Image
-document.addEventListener("DOMContentLoaded", function () {
-  const captureBtn = document.getElementById("capture-btn");
-  if (captureBtn) {
-    captureBtn.addEventListener("click", function () {
-      html2canvas(document.getElementById("postcard"), { useCORS: true, allowTaint: false })
-        .then(function (canvas) {
-          const link = document.createElement("a");
-          link.download = "christmas-postcard.png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
-        })
-        .catch(function (error) {
-          console.error("Error capturing the postcard:", error);
-          alert("Failed to capture the postcard. Please check for cross-origin images or try again.");
-        });
-    });
-  }
-});
-
 // 🔗 Share Link with E-Card Data
 document.addEventListener("DOMContentLoaded", function () {
   const shareBtn = document.getElementById("shareBtn");
@@ -63,17 +43,15 @@ document.addEventListener("DOMContentLoaded", function () {
       let builtInMessage = document.getElementById("builtInMessage").value;
       let customMessage = document.getElementById("customMessage").value;
 
-      // Combine built-in and custom messages
-      let fullMessage = `${builtInMessage}${customMessage ? '\n' + customMessage : ''}`;
-
       // Encode data to make it URL-safe
       let encodedSender = encodeURIComponent(senderName);
       let encodedReceiver = encodeURIComponent(receiverName);
-      let encodedMessage = encodeURIComponent(fullMessage);
+      let encodedBuiltIn = encodeURIComponent(builtInMessage);
+      let encodedCustom = encodeURIComponent(customMessage);
 
       // Get current page URL and append parameters
       let currentURL = window.location.origin + window.location.pathname;
-      let shareableLink = `${currentURL}?sender=${encodedSender}&receiver=${encodedReceiver}&message=${encodedMessage}`;
+      let shareableLink = `${currentURL}?sender=${encodedSender}&receiver=${encodedReceiver}&builtIn=${encodedBuiltIn}&custom=${encodedCustom}`;
 
       // Open the link in a new tab
       window.open(shareableLink, "_blank");
@@ -91,19 +69,22 @@ window.onload = function () {
   let urlParams = new URLSearchParams(window.location.search);
   let senderName = urlParams.get("sender");
   let receiverName = urlParams.get("receiver");
-  let message = urlParams.get("message");
+  let builtInMessage = urlParams.get("builtIn");
+  let customMessage = urlParams.get("custom");
 
-  if (senderName && receiverName && message) {
-    // Update the postcard display
-    document.getElementById("messageOverlay").textContent = 
-      `🎉 To: ${receiverName}\n${message}\n🎅 From: ${senderName}`;
+  // If parameters exist, fill in the e-card automatically
+  if (senderName && receiverName && builtInMessage) {
+    document.getElementById("senderName").value = senderName;
+    document.getElementById("receiverName").value = receiverName;
+    document.getElementById("builtInMessage").value = builtInMessage;
+    if (customMessage) {
+      document.getElementById("customMessage").value = customMessage;
+    }
 
-    // Hide input fields, buttons, and ornaments when accessed via shared link
-    let controls = document.getElementById("controls");
-    if (controls) controls.style.display = "none";
+    // Update the displayed message
+    displayPostcard();
   }
 };
-
 
 
 
