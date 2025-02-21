@@ -35,6 +35,8 @@ function showBlessing(message) {
 // 🔗 Share Link with E-Card Data
 document.addEventListener("DOMContentLoaded", function () {
   const shareBtn = document.getElementById("shareBtn");
+  const generateBtn = document.querySelector("button[onclick='displayPostcard()']");
+  
   if (shareBtn) {
     shareBtn.addEventListener("click", function () {
       // Get user inputs
@@ -62,29 +64,28 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
-});
 
-// 🎯 Load Shared Data from URL
-window.onload = function () {
+  // 🎯 Load Shared Data from URL
   let urlParams = new URLSearchParams(window.location.search);
   let senderName = urlParams.get("sender");
   let receiverName = urlParams.get("receiver");
   let builtInMessage = urlParams.get("builtIn");
   let customMessage = urlParams.get("custom");
 
-  // If parameters exist, fill in the e-card automatically
   if (senderName && receiverName && builtInMessage) {
-    document.getElementById("senderName").value = senderName;
-    document.getElementById("receiverName").value = receiverName;
-    document.getElementById("builtInMessage").value = builtInMessage;
-    if (customMessage) {
-      document.getElementById("customMessage").value = customMessage;
-    }
+    // Fill in the e-card with shared details
+    document.getElementById("messageOverlay").textContent =
+      `🎉 To: ${receiverName}\n${builtInMessage}${customMessage ? '\n' + customMessage : ''}\n🎅 From: ${senderName}`;
 
-    // Update the displayed message
-    displayPostcard();
+    // Disable editing and hide unnecessary buttons for the receiver
+    document.getElementById("senderName").style.display = "none";
+    document.getElementById("receiverName").style.display = "none";
+    document.getElementById("builtInMessage").style.display = "none";
+    document.getElementById("customMessage").style.display = "none";
+    if (generateBtn) generateBtn.style.display = "none";
+    if (shareBtn) shareBtn.style.display = "none";
   }
-};
+});
 
 
 
