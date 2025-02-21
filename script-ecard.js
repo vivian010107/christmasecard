@@ -74,13 +74,17 @@ window.onload = function () {
   let receiverName = urlParams.get("receiver");
   let message = urlParams.get("message");
 
-  // If parameters exist, fill in the e-card
+  // If parameters exist, fill in the e-card inputs
   if (senderName && receiverName && message) {
       document.getElementById("senderName").value = senderName;
       document.getElementById("receiverName").value = receiverName;
       document.getElementById("message").value = message;
+
+      // Also update the displayed postcard message
+      document.getElementById('messageOverlay').textContent = `🎉 To: ${receiverName}\n${message}\n🎅 From: ${senderName}`;
   }
 };
+
 
 
 
