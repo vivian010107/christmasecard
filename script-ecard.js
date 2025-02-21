@@ -44,8 +44,43 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById("shareBtn").addEventListener("click", function () {
-  const currentURL = window.location.href; // Get the current page URL
-  window.open(currentURL, "_blank"); // Open it in a new tab
+  // Get user inputs
+  let senderName = document.getElementById("senderName").value;
+  let receiverName = document.getElementById("receiverName").value;
+  let message = document.getElementById("message").value;
+
+  // Encode data to make it URL-safe
+  let encodedSender = encodeURIComponent(senderName);
+  let encodedReceiver = encodeURIComponent(receiverName);
+  let encodedMessage = encodeURIComponent(message);
+
+  // Get current page URL and append parameters
+  let currentURL = window.location.origin + window.location.pathname;
+  let shareableLink = `${currentURL}?sender=${encodedSender}&receiver=${encodedReceiver}&message=${encodedMessage}`;
+
+  // Open the link in a new tab
+  window.open(shareableLink, "_blank");
+
+  // (Optional) Copy to clipboard
+  navigator.clipboard.writeText(shareableLink).then(() => {
+      alert("Link copied! Share it with your receiver.");
+  });
 });
+
+window.onload = function () {
+  // Get URL parameters
+  let urlParams = new URLSearchParams(window.location.search);
+  let senderName = urlParams.get("sender");
+  let receiverName = urlParams.get("receiver");
+  let message = urlParams.get("message");
+
+  // If parameters exist, fill in the e-card
+  if (senderName && receiverName && message) {
+      document.getElementById("senderName").value = senderName;
+      document.getElementById("receiverName").value = receiverName;
+      document.getElementById("message").value = message;
+  }
+};
+
 
 
